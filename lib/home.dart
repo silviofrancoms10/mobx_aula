@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:mobx_aula/controller.dart';
 
 class Home extends StatefulWidget {
@@ -11,6 +12,24 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Controller controller = Controller();
+  late ReactionDisposer reactionDisposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    /* autorun((_) {
+      print(controller.formValidado);
+    }); */
+    reactionDisposer = reaction((_) => controller.usuarioLogado, (valor) {
+      print(valor);
+    });
+  }
+
+  @override
+  void dispose() {
+    reactionDisposer();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +82,18 @@ class _HomeState extends State<Home> {
                 builder: (_) {
                   return ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                    onPressed: controller.formValidado ? () {} : null,
-                    child: Text("Logar", style: TextStyle(color: Colors.black, fontSize: 30)),
+                    onPressed:
+                        controller.formValidado
+                            ? () {
+                              controller.logar();
+                            }
+                            : null,
+                    child:
+                        controller.carregando
+                            ? CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.white),
+                            )
+                            : Text("Logar", style: TextStyle(color: Colors.black, fontSize: 30)),
                   );
                 },
               ),

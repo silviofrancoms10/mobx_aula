@@ -9,12 +9,6 @@ part of 'controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$Controller on ControllerBase, Store {
-  Computed<String>? _$loginComputed;
-
-  @override
-  String get login => (_$loginComputed ??=
-          Computed<String>(() => super.login, name: 'ControllerBase.login'))
-      .value;
   Computed<bool>? _$formValidadoComputed;
 
   @override
@@ -53,6 +47,46 @@ mixin _$Controller on ControllerBase, Store {
     });
   }
 
+  late final _$usuarioLogadoAtom =
+      Atom(name: 'ControllerBase.usuarioLogado', context: context);
+
+  @override
+  bool get usuarioLogado {
+    _$usuarioLogadoAtom.reportRead();
+    return super.usuarioLogado;
+  }
+
+  @override
+  set usuarioLogado(bool value) {
+    _$usuarioLogadoAtom.reportWrite(value, super.usuarioLogado, () {
+      super.usuarioLogado = value;
+    });
+  }
+
+  late final _$carregandoAtom =
+      Atom(name: 'ControllerBase.carregando', context: context);
+
+  @override
+  bool get carregando {
+    _$carregandoAtom.reportRead();
+    return super.carregando;
+  }
+
+  @override
+  set carregando(bool value) {
+    _$carregandoAtom.reportWrite(value, super.carregando, () {
+      super.carregando = value;
+    });
+  }
+
+  late final _$logarAsyncAction =
+      AsyncAction('ControllerBase.logar', context: context);
+
+  @override
+  Future<void> logar() {
+    return _$logarAsyncAction.run(() => super.logar());
+  }
+
   late final _$ControllerBaseActionController =
       ActionController(name: 'ControllerBase', context: context);
 
@@ -83,7 +117,8 @@ mixin _$Controller on ControllerBase, Store {
     return '''
 email: ${email},
 senha: ${senha},
-login: ${login},
+usuarioLogado: ${usuarioLogado},
+carregando: ${carregando},
 formValidado: ${formValidado}
     ''';
   }
