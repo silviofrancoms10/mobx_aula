@@ -59,10 +59,14 @@ class _HomeState extends State<Home> {
             ),
             Padding(
               padding: EdgeInsets.all(16),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                onPressed: controller.formValidado ? () {} : null,
-                child: Text("Logar", style: TextStyle(color: Colors.black, fontSize: 30)),
+              child: Observer(
+                builder: (_) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                    onPressed: controller.formValidado ? () {} : null,
+                    child: Text("Logar", style: TextStyle(color: Colors.black, fontSize: 30)),
+                  );
+                },
               ),
             ),
           ],
