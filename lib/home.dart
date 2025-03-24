@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            Padding(
+            /* Padding(
               padding: EdgeInsets.all(16),
               child: Observer(
                 builder: (_) {
@@ -33,14 +33,36 @@ class _HomeState extends State<Home> {
                   );
                 },
               ),
+            ), */
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: TextField(
+                decoration: InputDecoration(labelText: "e-mail"),
+                onChanged: controller.setEmail,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: TextField(
+                decoration: InputDecoration(labelText: "senha"),
+                onChanged: controller.setSenha,
+                obscureText: true,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Observer(
+                builder: (_) {
+                  return Text(controller.formValidado ? "Validado" : "* Campos não validados");
+                },
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(16),
               child: ElevatedButton(
-                onPressed: () {
-                  controller.increment();
-                },
-                child: Text("Incrementar", style: TextStyle(color: Colors.black, fontSize: 30)),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                onPressed: controller.formValidado ? () {} : null,
+                child: Text("Logar", style: TextStyle(color: Colors.black, fontSize: 30)),
               ),
             ),
           ],
