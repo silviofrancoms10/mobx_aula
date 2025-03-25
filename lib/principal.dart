@@ -57,9 +57,25 @@ class _PrincipalState extends State<Principal> {
           return ListView.builder(
             itemCount: _principalController.listaItens.length,
             itemBuilder: (_, indice) {
-              return ListTile(
-                title: Text(_principalController.listaItens[indice]),
-                onTap: () {},
+              var item =
+                  _principalController
+                      .listaItens[indice]; // é do tipo ItemController
+              return Observer(
+                builder: (_) {
+                  return ListTile(
+                    title: Text(
+                      item.titulo,
+                      style: TextStyle(
+                        decoration:
+                            item.marcado ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+                    leading: Checkbox(value: item.marcado, onChanged: (_) => item.marcado,),
+                    onTap: () {
+                      item.marcado = !item.marcado;
+                    },
+                  );
+                },
               );
             },
           );
