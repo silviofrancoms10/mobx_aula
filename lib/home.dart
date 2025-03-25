@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_aula/controller.dart';
+import 'package:mobx_aula/principal.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -20,8 +21,14 @@ class _HomeState extends State<Home> {
     /* autorun((_) {
       print(controller.formValidado);
     }); */
-    reactionDisposer = reaction((_) => controller.usuarioLogado, (valor) {
-      print(valor);
+    reactionDisposer = reaction((_) => controller.usuarioLogado, (
+      usuarioLogado,
+    ) {
+      if (usuarioLogado) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => Principal()), // quando loga esta mudando para outra tela
+        ); 
+      }
     });
   }
 
@@ -72,7 +79,11 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.all(16),
               child: Observer(
                 builder: (_) {
-                  return Text(controller.formValidado ? "Validado" : "* Campos não validados");
+                  return Text(
+                    controller.formValidado
+                        ? "Validado"
+                        : "* Campos não validados",
+                  );
                 },
               ),
             ),
@@ -81,7 +92,9 @@ class _HomeState extends State<Home> {
               child: Observer(
                 builder: (_) {
                   return ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
                     onPressed:
                         controller.formValidado
                             ? () {
@@ -93,7 +106,13 @@ class _HomeState extends State<Home> {
                             ? CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation(Colors.white),
                             )
-                            : Text("Logar", style: TextStyle(color: Colors.black, fontSize: 30)),
+                            : Text(
+                              "Logar",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 30,
+                              ),
+                            ),
                   );
                 },
               ),
