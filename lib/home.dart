@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_aula/controller.dart';
 import 'package:mobx_aula/principal.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,13 +22,18 @@ class _HomeState extends State<Home> {
     /* autorun((_) {
       print(controller.formValidado);
     }); */
+
+    controller = Provider.of<Controller>(context);
+
     reactionDisposer = reaction((_) => controller.usuarioLogado, (
       usuarioLogado,
     ) {
       if (usuarioLogado) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => Principal()), // quando loga esta mudando para outra tela
-        ); 
+          MaterialPageRoute(
+            builder: (_) => Principal(),
+          ), // quando loga esta mudando para outra tela
+        );
       }
     });
   }

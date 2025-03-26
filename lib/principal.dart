@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx_aula/controller.dart';
 import 'package:mobx_aula/principal_controller.dart';
+import 'package:provider/provider.dart';
 
 class Principal extends StatefulWidget {
   @override
@@ -45,10 +47,13 @@ class _PrincipalState extends State<Principal> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<Controller>(context);
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
         title: Text(
-          "Tarefas",
+          "${controller.email}",
           style: TextStyle(fontSize: 25, color: Colors.white),
         ),
       ),
@@ -70,7 +75,10 @@ class _PrincipalState extends State<Principal> {
                             item.marcado ? TextDecoration.lineThrough : null,
                       ),
                     ),
-                    leading: Checkbox(value: item.marcado, onChanged: (_) => item.marcado,),
+                    leading: Checkbox(
+                      value: item.marcado,
+                      onChanged: (_) => item.marcado,
+                    ),
                     onTap: () {
                       item.marcado = !item.marcado;
                     },
